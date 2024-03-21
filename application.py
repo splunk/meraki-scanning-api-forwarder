@@ -12,7 +12,7 @@ MERAKI_VALIDATOR = os.environ['MERAKI_VALIDATOR']
 MERAKI_SECRET = os.environ['MERAKI_SECRET']
 
 application = Flask(__name__)
-application.logger.setLevel(logging.INFO)
+application.logger.setLevel(logging.DEBUG)
 
 
 @application.before_request
@@ -46,8 +46,10 @@ def meraki_post():
     data = request.get_json()
     secret = data.get('secret')
     if secret == MERAKI_SECRET:
-        application.logger.debug(f'POST JSON data: f{data}')
-        send_to_hec(data={"event": data})
+        payload = data.copy()
+        del payload['secret']
+        application.logger.debug(f'POST JSON data: f{payload}')
+        send_to_hec(data={"event": payload})
         return 'Received'
     else:
         abort(403)
