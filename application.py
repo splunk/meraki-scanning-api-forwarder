@@ -8,6 +8,7 @@ load_dotenv()
 
 SPLUNK_HEC_URL = os.environ['SPLUNK_HEC_URL']
 SPLUNK_HEC_TOKEN = os.environ['SPLUNK_HEC_TOKEN']
+MERAKI_VALIDATOR = os.environ['MERAKI_VALIDATOR']
 
 application = Flask(__name__)
 application.logger.setLevel(logging.INFO)
@@ -36,7 +37,7 @@ def send_to_hec(data: dict):
 
 @application.route('/meraki', methods=['GET'])
 def meraki_get():
-    return 'GET'
+    return MERAKI_VALIDATOR
 
 
 @application.route('/meraki', methods=['POST'])
