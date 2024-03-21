@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, abort, request
 import logging
 import requests
 import os
@@ -9,6 +9,7 @@ load_dotenv()
 SPLUNK_HEC_URL = os.environ['SPLUNK_HEC_URL']
 SPLUNK_HEC_TOKEN = os.environ['SPLUNK_HEC_TOKEN']
 MERAKI_VALIDATOR = os.environ['MERAKI_VALIDATOR']
+MERAKI_SECRET = os.environ['MERAKI_SECRET']
 
 application = Flask(__name__)
 application.logger.setLevel(logging.INFO)
@@ -42,12 +43,14 @@ def meraki_get():
 
 @application.route('/meraki', methods=['POST'])
 def meraki_post():
-    # TODO: filter traffic from Meraki only
-    # Maybe configure this as the AWS SG level
     data = request.get_json()
-    application.logger.info(f'POST JSON data: f{data}')
-    send_to_hec(data={"event": data})
-    return 'Received'
+    secret = data.get('secret')
+    if secret == MERAKI_SECRET:
+        application.logger.info(f'POST JSON data: f{data}')
+        send_to_hec(data={"event": data})
+        return 'Received'
+    else:
+        abort(403)
 
 
 if __name__ == '__main__':
