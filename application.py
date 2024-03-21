@@ -17,7 +17,7 @@ application.logger.setLevel(logging.INFO)
 
 @application.before_request
 def log_request_info():
-    application.logger.info(f'Request: {request}\n{request.headers}\nARGS={request.args}\nBODY={request.get_data()}')
+    application.logger.debug(f'Request: {request}\n{request.headers}\nARGS={request.args}\nBODY={request.get_data()}')
 
 
 @application.route('/')
@@ -46,7 +46,7 @@ def meraki_post():
     data = request.get_json()
     secret = data.get('secret')
     if secret == MERAKI_SECRET:
-        application.logger.info(f'POST JSON data: f{data}')
+        application.logger.debug(f'POST JSON data: f{data}')
         send_to_hec(data={"event": data})
         return 'Received'
     else:
