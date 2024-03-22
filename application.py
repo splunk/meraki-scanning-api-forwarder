@@ -12,12 +12,12 @@ MERAKI_VALIDATOR = os.environ['MERAKI_VALIDATOR']
 MERAKI_SECRET = os.environ['MERAKI_SECRET']
 
 application = Flask(__name__)
-application.logger.setLevel(logging.DEBUG)
+application.logger.setLevel(logging.INFO)
 
 
 @application.before_request
 def log_request_info():
-    application.logger.debug(f'Request: {request}\n{request.headers}\nARGS={request.args}\nBODY={request.get_data()}')
+    application.logger.info(f'Request: {request}\n{request.headers}\nARGS={request.args}')
 
 
 @application.route('/')
