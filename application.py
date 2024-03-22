@@ -28,7 +28,7 @@ def index():
 
 def send_to_hec(data: dict):
     url = f"{SPLUNK_HEC_URL}/services/collector/event"
-    application.logger.info(f'Forwarding data to HEC {url}: {data}')
+    application.logger.info(f'Forwarding data to HEC {url}.')
     resp = requests.post(url, json=data, headers={
         "Authorization": f"Splunk {SPLUNK_HEC_TOKEN}"
     })
