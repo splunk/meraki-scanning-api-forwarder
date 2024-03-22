@@ -28,7 +28,7 @@ def index():
 
 def send_to_hec(data: dict):
     url = f"{SPLUNK_HEC_URL}/services/collector/event"
-    application.logger.info(f'Forwarding data to {url}')
+    application.logger.info(f'Forwarding data to HEC {url}: {data}')
     resp = requests.post(url, json=data, headers={
         "Authorization": f"Splunk {SPLUNK_HEC_TOKEN}"
     })
@@ -48,8 +48,12 @@ def meraki_post():
     if secret == MERAKI_SECRET:
         payload = data.copy()
         del payload['secret']
-        application.logger.debug(f'POST JSON data: f{payload}')
-        send_to_hec(data={"event": payload})
+        hec_event = {
+            "event": payload,
+            "source": f"cisco_meraki_scanning_api",
+            "sourcetype": "json_no_timestamp",
+        }
+        send_to_hec(data=hec_event)
         return 'Received'
     else:
         abort(403)
