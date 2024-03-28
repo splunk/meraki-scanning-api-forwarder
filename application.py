@@ -23,7 +23,7 @@ def log_request_info():
 @application.route('/')
 def index():
     param = request.args.get('x', default='World')
-    return f'Hello {param}!'
+    return f'Hello {param}.'
 
 
 def send_to_hec(data: dict):
