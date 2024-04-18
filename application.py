@@ -22,8 +22,7 @@ def log_request_info():
 
 @application.route('/')
 def index():
-    param = request.args.get('x', default='World')
-    return f'Hello {param}.'
+    return 'Flask server is up.'
 
 
 def send_to_hec(data: dict):
