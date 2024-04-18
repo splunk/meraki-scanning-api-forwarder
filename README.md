@@ -13,7 +13,7 @@ Note that Meraki Scanning API integration requires an HTTPS endpoint to send the
       - which is configured with a certificate associated with the custom domain name
       - which forwards traffic to the target group
 - Target Group of EC2s
-    - running the Flask server
+    - running the Flask server (`application.py`)
     - recommended at least 2 instances for high-availability
 - Elastic Beanstalk can be used to provision the EC2s & ALB
   - See: https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-flask.html
