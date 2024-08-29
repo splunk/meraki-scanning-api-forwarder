@@ -12,6 +12,8 @@ Note that Meraki Scanning API integration requires an HTTPS endpoint to send the
   - configured with HTTPS listener
       - which is configured with a certificate associated with the custom domain name
       - which forwards traffic to the target group
+  - Alternatively, Cloudfront could be used as a HTTPS listener: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https.html
+    -   this also means you do not need a custom domain name, as Cloudfront distribution has it's own
 - Target Group of EC2s
     - running the Flask server (`application.py`)
     - recommended at least 2 instances for high-availability
